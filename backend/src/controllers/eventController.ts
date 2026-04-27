@@ -41,8 +41,16 @@ export const getAllEvents = async (req: Request, res: Response) => {
       prisma.event.count({ where })
     ]);
 
+    const transformedEvents = events.map(event => ({
+      ...event,
+      thumbnailUrl: event.imageUrl,
+      date: event.startDate,
+      contactEmail: event.email,
+      contactPhone: event.phone,
+    }));
+
     res.json({
-      data: events,
+      data: transformedEvents,
       pagination: {
         currentPage: page,
         totalPages: Math.ceil(total / limit),
@@ -95,8 +103,16 @@ export const getAllEventsAdmin = async (req: Request, res: Response) => {
       prisma.event.count({ where })
     ]);
 
+    const transformedEvents = events.map(event => ({
+      ...event,
+      thumbnailUrl: event.imageUrl,
+      date: event.startDate,
+      contactEmail: event.email,
+      contactPhone: event.phone,
+    }));
+
     res.json({
-      data: events,
+      data: transformedEvents,
       pagination: {
         currentPage: page,
         totalPages: Math.ceil(total / limit),
@@ -124,7 +140,15 @@ export const getEventById = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Event not found' });
     }
 
-    res.json(event);
+    const transformedEvent = {
+      ...event,
+      thumbnailUrl: event.imageUrl,
+      date: event.startDate,
+      contactEmail: event.email,
+      contactPhone: event.phone,
+    };
+
+    res.json(transformedEvent);
   } catch (error: any) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
@@ -136,23 +160,17 @@ export const createEvent = async (req: Request, res: Response) => {
       title,
       description,
       category,
-      imageUrl,
+      thumbnailUrl,
       gallery,
-      startDate,
-      endDate,
-      time,
+      date,
       location,
-      venue,
-      address,
-      email,
-      phone,
-      website,
+      contactEmail,
+      contactPhone,
       maxParticipants,
       status,
-      published,
     } = req.body;
 
-    if (!title || !description || !category || !imageUrl || !startDate || !endDate || !time || !location || !venue || !address || !email || !phone) {
+    if (!title || !description || !category || !thumbnailUrl || !date || !location || !contactEmail || !contactPhone) {
       return res.status(400).json({ message: 'All required fields must be provided' });
     }
 
@@ -161,20 +179,20 @@ export const createEvent = async (req: Request, res: Response) => {
         title,
         description,
         category,
-        imageUrl,
+        imageUrl: thumbnailUrl,
         gallery: gallery || [],
-        startDate,
-        endDate,
-        time,
+        startDate: date,
+        endDate: date,
+        time: '00:00',
         location,
-        venue,
-        address,
-        email,
-        phone,
-        website,
-        maxParticipants: maxParticipants ? parseInt(maxParticipants) : null,
+        venue: location,
+        address: location,
+        email: contactEmail,
+        phone: contactPhone,
+        website: '',
+        maxParticipants: maxParticipants ? parseInt(maxParticipants.toString()) : 100,
         status: status || 'Draft',
-        published: published || false,
+        published: status === 'Published',
         createdById: req.user!.id,
       },
       include: {
@@ -196,45 +214,43 @@ export const updateEvent = async (req: Request, res: Response) => {
       title,
       description,
       category,
-      imageUrl,
+      thumbnailUrl,
       gallery,
-      startDate,
-      endDate,
-      time,
+      date,
       location,
-      venue,
-      address,
-      email,
-      phone,
-      website,
+      contactEmail,
+      contactPhone,
       maxParticipants,
-      participants,
       status,
-      published,
     } = req.body;
+
+    const updateData: any = {};
+
+    if (title) updateData.title = title;
+    if (description) updateData.description = description;
+    if (category) updateData.category = category;
+    if (thumbnailUrl) updateData.imageUrl = thumbnailUrl;
+    if (gallery) updateData.gallery = gallery;
+    if (date) {
+      updateData.startDate = date;
+      updateData.endDate = date;
+    }
+    if (location) {
+      updateData.location = location;
+      updateData.venue = location;
+      updateData.address = location;
+    }
+    if (contactEmail) updateData.email = contactEmail;
+    if (contactPhone) updateData.phone = contactPhone;
+    if (maxParticipants) updateData.maxParticipants = parseInt(maxParticipants.toString());
+    if (status) {
+      updateData.status = status;
+      updateData.published = status === 'Published';
+    }
 
     const event = await prisma.event.update({
       where: { id: req.params.id },
-      data: {
-        title,
-        description,
-        category,
-        imageUrl,
-        gallery,
-        startDate,
-        endDate,
-        time,
-        location,
-        venue,
-        address,
-        email,
-        phone,
-        website,
-        maxParticipants: maxParticipants ? parseInt(maxParticipants) : null,
-        participants: participants ? parseInt(participants) : undefined,
-        status,
-        published,
-      },
+      data: updateData,
       include: {
         createdBy: {
           select: { name: true, email: true }

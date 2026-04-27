@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { authApi } from './api/authApi'
 import { eventsApi } from './api/eventsApi'
 import { assetsApi } from './api/assetsApi'
+import { adminEventsApi } from './api/adminEventsApi'
 import authReducer from './slices/authSlice'
 
 export const store = configureStore({
@@ -9,10 +10,16 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     [eventsApi.reducerPath]: eventsApi.reducer,
     [assetsApi.reducerPath]: assetsApi.reducer,
+    [adminEventsApi.reducerPath]: adminEventsApi.reducer,
     auth: authReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApi.middleware, eventsApi.middleware, assetsApi.middleware),
+    getDefaultMiddleware().concat(
+      authApi.middleware,
+      eventsApi.middleware,
+      assetsApi.middleware,
+      adminEventsApi.middleware
+    ),
 })
 
 export type RootState = ReturnType<typeof store.getState>

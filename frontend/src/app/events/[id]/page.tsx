@@ -60,15 +60,25 @@ export default function EventDetailPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
-          className="relative h-[500px] overflow-hidden"
+          className="relative h-[500px] overflow-hidden bg-[#1a1a1a]"
         >
-          <Image
-            src={event.thumbnailUrl}
-            alt={event.title}
-            fill
-            className="object-cover"
-            priority
-          />
+          {event.thumbnailUrl ? (
+            <Image
+              src={event.thumbnailUrl}
+              alt={event.title}
+              fill
+              className="object-cover"
+              priority
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <div className="text-center">
+                <div className="w-32 h-32 mx-auto bg-[#ff8c42]/20 rounded-full flex items-center justify-center mb-4">
+                  <Calendar className="w-16 h-16 text-[#ff8c42]" />
+                </div>
+              </div>
+            </div>
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
           
           <div className="absolute bottom-0 left-0 right-0 max-w-7xl mx-auto px-6 pb-12">
