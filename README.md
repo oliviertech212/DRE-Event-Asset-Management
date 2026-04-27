@@ -271,10 +271,72 @@ Password: admin123
 3. Add environment variables
 4. Deploy
 
-## License
+## Assumptions
 
-MIT License - feel free to use this project for learning and development.
+- Users need both public browsing and admin management capabilities
+- Gaming events require detailed information (dates, location, contact, gallery)
+- Digital assets need categorization by type (3D, 2D, Audio, Video, XR)
+- Admins need quick access to statistics and recent items on dashboard
+- Pagination of 10 items per page is sufficient for browsing
+- JWT tokens stored in localStorage is acceptable for this assessment (production would use httpOnly cookies)
+- Cloudinary is available for image/file hosting
+- PostgreSQL database is preferred over MongoDB for relational data
 
-## Author
+## Tradeoffs
 
-Built with love for Digital Realm Events
+### Next.js over Plain React
+**Chose**: Next.js App Router
+**Tradeoff**: Slightly more complex setup, but gained SSR, file-based routing, and better SEO for public pages
+
+### PostgreSQL + Prisma over MongoDB
+**Chose**: PostgreSQL with Prisma ORM
+**Tradeoff**: More setup (migrations), but gained type safety, relational data integrity, and better querying
+
+### Redux Toolkit Query over React Query
+**Chose**: RTK Query
+**Tradeoff**: More boilerplate, but gained centralized state management and better integration with Redux
+
+### Cloudinary over Local Storage
+**Chose**: Cloudinary for file uploads
+**Tradeoff**: External dependency, but gained automatic optimization, CDN delivery, and no server storage needed
+
+### Building Both Events AND Assets
+**Chose**: Full platform with both features
+**Tradeoff**: More development time, but created a more complete and realistic platform
+
+## What I would improve with more time
+
+### Public User Registration Flow
+- Allow visitors to register for events as attendees
+- Track registered users and send confirmation emails
+- Display registration status and available spots on event pages
+- Implement waitlist when events reach capacity
+
+### Digital Assets Marketplace
+- Enable buying/selling of digital assets
+- Integrate payment processing (Stripe)
+- Add asset licensing options (commercial, personal use)
+- Implement download tracking and analytics
+
+### Enhanced Features
+- Email notifications for event reminders and updates
+- Real-time participant updates using WebSockets
+- Advanced analytics dashboard with charts and graphs
+- Social sharing features for events (Twitter, Facebook)
+- User profiles with saved events and purchased assets
+- Comments and ratings system for events and assets
+- Calendar integration (Google Calendar, iCal)
+- Export event data to PDF
+
+### Technical Improvements
+- Implement automated tests (Jest, React Testing Library)
+- Add end-to-end tests (Playwright, Cypress)
+- Set up CI/CD pipeline (GitHub Actions)
+- Implement rate limiting on API endpoints
+- Add Redis caching for frequently accessed data
+- Migrate JWT to httpOnly cookies for better security
+- Add image compression before Cloudinary upload
+- Implement lazy loading for images and components
+- Add error boundary components for better error handling
+- Set up monitoring and logging (Sentry, LogRocket)
+
