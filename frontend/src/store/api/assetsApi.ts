@@ -38,7 +38,10 @@ export const assetsApi = createApi({
         return `/assets?${params.toString()}`
       },
     }),
+    getAssetById: builder.query<Asset, string>({
+      query: (id) => `/assets/${id}`,
+    }),
   }),
 })
 
-export const { useGetAssetsQuery } = assetsApi
+export const { useGetAssetsQuery, useGetAssetByIdQuery } = assetsApi
