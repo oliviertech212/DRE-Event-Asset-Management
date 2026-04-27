@@ -28,13 +28,25 @@ All backend APIs tested using Postman. Collection covers authentication, CRUD op
 **Why**: Prevent bad data, provide clear feedback
 **Result**:  Zod frontend validation + backend validation working, errors displayed in red
 
+## Test 6: Status Filter with Search
+**What**: Test status filter combined with search functionality
+**Why**: Spec requirement - users need to filter by status while searching
+**Result**:  Status filters working on both events (Draft/Published/Live/Upcoming) and assets (Draft/Active/Archived), works seamlessly with search and pagination
+
+## Test 7: Unique Title Validation
+**What**: Test duplicate title prevention for events and assets
+**Why**: Spec requirement - item names must be unique to avoid confusion
+**Result**:  Backend validates uniqueness (case-insensitive), returns 400 with "already exists" error message
+
 ## Coverage Summary
  Authentication (3 endpoints)
- Events CRUD (9 endpoints)
- Assets CRUD (9 endpoints)
+ Events CRUD (9 endpoints + 2 uniqueness tests)
+ Assets CRUD (9 endpoints + 2 uniqueness tests)
  Pagination, filtering, search
+ Status filters (Draft/Published/Archived)
  Protected routes
  Form validation
+ Uniqueness validation
 
-**Total Endpoints Tested**: 22
+**Total Endpoints Tested**: 24
 **Postman Collection**: Digital_Realm_API.postman_collection.json

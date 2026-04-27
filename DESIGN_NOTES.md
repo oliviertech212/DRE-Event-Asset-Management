@@ -76,6 +76,20 @@ Backend uses different field names than frontend for consistency:
    - Corrected minLength/maxLength types (number vs string)
    - Added optional fileSize to Asset interface
 
+7. **Status Filtering (Spec Update)**
+   - Events: Status filters (Draft/Published/Live/Upcoming) work with search
+   - Assets: Status filters (Draft/Active/Archived) work with search
+   - Frontend: Dropdown filters on admin events and assets pages
+   - Backend: Query parameter filtering combined with search
+   - Filters reset pagination to page 1 for consistent results
+
+8. **Unique Title Validation (Spec Update)**
+   - Case-insensitive uniqueness check on create and update
+   - Backend validates before database insertion
+   - Returns 400 error with clear message: "An event/asset with this title already exists"
+   - Frontend displays error message from backend via toast notification
+   - Update operations exclude current item from uniqueness check
+
 ## Risks and mitigations
 
 ### Risk: Backend cold start on Render free tier
@@ -92,6 +106,9 @@ Backend uses different field names than frontend for consistency:
 
 ### Risk: SQL injection
 **Mitigation**: Prisma ORM parameterizes all queries automatically
+
+### Risk: Duplicate titles causing confusion
+**Mitigation**: Case-insensitive uniqueness validation on backend, clear error messages to users
 
 ### Risk: Unauthorized access to admin routes
 **Mitigation**: JWT middleware validates tokens on every protected endpoint, frontend route guards
