@@ -299,7 +299,7 @@ export default function AdminAssetsPage() {
             <div className="p-6 space-y-6">
               <div className="relative w-full h-64 rounded-lg overflow-hidden bg-black">
                 {selectedAsset.thumbnailUrl ? (
-                  <Image
+                  <Image  
                     src={selectedAsset.thumbnailUrl}
                     alt={selectedAsset.title}
                     fill
