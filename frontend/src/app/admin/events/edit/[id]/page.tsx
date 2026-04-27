@@ -37,16 +37,16 @@ export default function EditEventPage() {
         title: event.title,
         description: event.description,
         category: event.category,
-        date: event.startDate || event.date?.split('T')[0] || '',
+        date: event.date?.split('T')[0] || '',
         location: event.location,
         maxParticipants: event.maxParticipants.toString(),
         status: event.status,
-        thumbnailUrl: event.imageUrl || event.thumbnailUrl,
+        thumbnailUrl: event.thumbnailUrl,
         gallery: event.gallery || [],
-        contactEmail: event.email || event.contactEmail,
-        contactPhone: event.phone || event.contactPhone,
+        contactEmail: event.contactEmail,
+        contactPhone: event.contactPhone,
       })
-      setImagePreview(event.imageUrl || event.thumbnailUrl)
+      setImagePreview(event.thumbnailUrl)
       setGalleryImages(event.gallery || [])
     }
   }, [event])
@@ -324,7 +324,7 @@ export default function EditEventPage() {
               <input
                 type="tel"
                 required
-                minLength="10"
+                minLength={10}
                 pattern="[0-9+\s()-]+"
                 value={formData.contactPhone}
                 onChange={(e) => setFormData({ ...formData, contactPhone: e.target.value })}
@@ -339,8 +339,8 @@ export default function EditEventPage() {
             <textarea
               required
               rows={5}
-              minLength="20"
-              maxLength="5000"
+              minLength={20}
+              maxLength={5000}
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               className="w-full px-4 py-2.5 bg-black border border-white/10 rounded-lg text-white focus:border-[#ff8c42] focus:outline-none"

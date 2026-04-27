@@ -11,6 +11,7 @@ export interface Asset {
   thumbnailUrl: string
   assetUrl: string
   project: string
+  fileSize?: string
   createdAt: string
   updatedAt: string
 }

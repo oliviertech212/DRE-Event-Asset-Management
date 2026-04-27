@@ -115,7 +115,7 @@ export default function CreateEventPage() {
     } catch (error: any) {
       if (error instanceof z.ZodError) {
         const fieldErrors: Record<string, string> = {}
-        error.errors.forEach((err) => {
+        error.issues.forEach((err) => {
           if (err.path[0]) {
             fieldErrors[err.path[0] as string] = err.message
           }
@@ -325,7 +325,7 @@ export default function CreateEventPage() {
               <label className="block text-sm font-semibold text-white mb-2">Contact Phone *</label>
               <input
                 type="tel"
-                minLength="10"
+                minLength={10}
                 value={formData.contactPhone}
                 onChange={(e) => setFormData({ ...formData, contactPhone: e.target.value })}
                 className={`w-full px-4 py-2.5 bg-black border rounded-lg text-white focus:outline-none ${
@@ -341,8 +341,8 @@ export default function CreateEventPage() {
             <label className="block text-sm font-semibold text-white mb-2">Description *</label>
             <textarea
               rows={5}
-              minLength="20"
-              maxLength="5000"
+              minLength={20}
+              maxLength={5000}
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               className={`w-full px-4 py-2.5 bg-black border rounded-lg text-white focus:outline-none ${

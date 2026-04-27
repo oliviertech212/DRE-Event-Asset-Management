@@ -6,6 +6,7 @@ const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || '
 export interface UploadResult {
   url: string
   publicId: string
+  bytes?: number
 }
 
 declare global {
@@ -81,6 +82,7 @@ export const openUploadWidget = (options: {
           const uploadedFile: UploadResult = {
             url: result.info.secure_url,
             publicId: result.info.public_id,
+            bytes: result.info.bytes,
           }
           options.onSuccess([uploadedFile])
         }
