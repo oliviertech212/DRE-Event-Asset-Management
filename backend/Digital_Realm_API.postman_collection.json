@@ -1,0 +1,786 @@
+{
+	"info": {
+		"_postman_id": "digital-realm-api",
+		"name": "Digital Realm API",
+		"description": "Complete API collection for Digital Realm Event & Asset Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"test@digitalrealm.rw\",\n  \"password\": \"password123\",\n  \"name\": \"Test User\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/register",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "register"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"auth_token\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@digitalrealm.rw\",\n  \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "login"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/auth/me",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "me"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Events",
+			"item": [
+				{
+					"name": "Get All Events (Public) - Paginated",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/events?page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "events"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Events (Public) - Filter by Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/events?category=Tournament&page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "events"],
+							"query": [
+								{
+									"key": "category",
+									"value": "Tournament"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Events (Public) - Filter by Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/events?status=Live&page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "events"],
+							"query": [
+								{
+									"key": "status",
+									"value": "Live"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Events (Public) - Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/events?search=Kigali&page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "events"],
+							"query": [
+								{
+									"key": "search",
+									"value": "Kigali"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Events (Admin) - Paginated",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/events/admin?page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "events", "admin"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Events - Filter by Category",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/events/admin?category=Tournament&page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "events", "admin"],
+							"query": [
+								{
+									"key": "category",
+									"value": "Tournament"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Events - Filter by Status",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/events/admin?status=Live&page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "events", "admin"],
+							"query": [
+								{
+									"key": "status",
+									"value": "Live"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Events - Search",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/events/admin?search=Kigali&page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "events", "admin"],
+							"query": [
+								{
+									"key": "search",
+									"value": "Kigali"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Event by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/events/{{event_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "events", "{{event_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Event",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"event_id\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Unity Game Dev Workshop\",\n  \"description\": \"Learn Unity game development from scratch\",\n  \"category\": \"Workshop\",\n  \"imageUrl\": \"https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=1200&q=80\",\n  \"gallery\": [\n    \"https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=800&q=80\",\n    \"https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80\"\n  ],\n  \"startDate\": \"2026-08-15\",\n  \"endDate\": \"2026-08-17\",\n  \"time\": \"9:00 AM - 5:00 PM\",\n  \"location\": \"Kigali\",\n  \"venue\": \"Digital Realm Studio\",\n  \"address\": \"KG 123 St, Kigali, Rwanda\",\n  \"email\": \"workshop@digitalrealm.rw\",\n  \"phone\": \"+250 788 999 888\",\n  \"website\": \"https://digitalrealm.rw\",\n  \"maxParticipants\": 30,\n  \"status\": \"Upcoming\",\n  \"published\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/events",
+							"host": ["{{base_url}}"],
+							"path": ["api", "events"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Event",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Unity Game Dev Workshop - Updated\",\n  \"description\": \"Learn Unity game development from scratch - Now with VR module\",\n  \"category\": \"Workshop\",\n  \"imageUrl\": \"https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=1200&q=80\",\n  \"gallery\": [\n    \"https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=800&q=80\"\n  ],\n  \"startDate\": \"2026-08-15\",\n  \"endDate\": \"2026-08-17\",\n  \"time\": \"9:00 AM - 6:00 PM\",\n  \"location\": \"Kigali\",\n  \"venue\": \"Digital Realm Studio\",\n  \"address\": \"KG 123 St, Kigali, Rwanda\",\n  \"email\": \"workshop@digitalrealm.rw\",\n  \"phone\": \"+250 788 999 888\",\n  \"website\": \"https://digitalrealm.rw\",\n  \"maxParticipants\": 40,\n  \"participants\": 15,\n  \"status\": \"Live\",\n  \"published\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/events/{{event_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "events", "{{event_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Event",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/events/{{event_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "events", "{{event_id}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Assets",
+			"item": [
+				{
+					"name": "Get All Assets (Public) - Paginated",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/assets?page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "assets"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Assets (Public) - Filter by Type",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/assets?type=3D Model&page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "assets"],
+							"query": [
+								{
+									"key": "type",
+									"value": "3D Model"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Assets (Public) - Filter by Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/assets?status=Active&page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "assets"],
+							"query": [
+								{
+									"key": "status",
+									"value": "Active"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Assets (Public) - Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/assets?search=Warrior&page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "assets"],
+							"query": [
+								{
+									"key": "search",
+									"value": "Warrior"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Assets (Admin) - Paginated",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/assets/admin?page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "assets", "admin"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Assets - Filter by Type",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/assets/admin?type=3D Model&page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "assets", "admin"],
+							"query": [
+								{
+									"key": "type",
+									"value": "3D Model"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Assets - Filter by Status",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/assets/admin?status=Active&page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "assets", "admin"],
+							"query": [
+								{
+									"key": "status",
+									"value": "Active"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Assets - Search",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/assets/admin?search=Warrior&page=1&limit=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "assets", "admin"],
+							"query": [
+								{
+									"key": "search",
+									"value": "Warrior"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Asset by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/assets/{{asset_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "assets", "{{asset_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Asset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"asset_id\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"African Drum Sound Pack\",\n  \"description\": \"Authentic African drum sounds for game audio\",\n  \"type\": \"Audio\",\n  \"project\": \"Realm Games\",\n  \"thumbnailUrl\": \"https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&q=80\",\n  \"assetUrl\": \"https://res.cloudinary.com/demo/video/upload/sample.mp3\",\n  \"fileSize\": \"45 MB\",\n  \"status\": \"Active\",\n  \"published\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/assets",
+							"host": ["{{base_url}}"],
+							"path": ["api", "assets"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Asset",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"African Drum Sound Pack - Extended\",\n  \"description\": \"Authentic African drum sounds for game audio - Now with 50+ sounds\",\n  \"type\": \"Audio\",\n  \"project\": \"Realm Games\",\n  \"thumbnailUrl\": \"https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&q=80\",\n  \"assetUrl\": \"https://res.cloudinary.com/demo/video/upload/sample.mp3\",\n  \"fileSize\": \"78 MB\",\n  \"status\": \"Active\",\n  \"published\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/assets/{{asset_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "assets", "{{asset_id}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Asset",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/assets/{{asset_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "assets", "{{asset_id}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/health",
+					"host": ["{{base_url}}"],
+					"path": ["api", "health"]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "auth_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "event_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "asset_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

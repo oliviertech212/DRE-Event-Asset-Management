@@ -4,6 +4,7 @@ import { Search, Gamepad2, Calendar, MapPin, Users } from 'lucide-react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { useRef } from 'react'
 
 const events = [
   {
@@ -57,9 +58,20 @@ const events = [
 ]
 
 export default function EventsSection() {
+  const sectionRef = useRef(null)
+  
   return (
-    <section className="relative z-10 bg-black py-20">
-      <div className="max-w-7xl mx-auto px-6">
+    <motion.section 
+      ref={sectionRef}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: false, amount: 0.3 }}
+      transition={{ duration: 0.8 }}
+      className="relative z-10 w-full bg-black py-20"
+    >
+      {/* Very light background overlay to allow hero image to show through */}
+      <div className="absolute inset-0 bg-black/90 pointer-events-none" />
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -169,6 +181,6 @@ export default function EventsSection() {
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   )
 }
