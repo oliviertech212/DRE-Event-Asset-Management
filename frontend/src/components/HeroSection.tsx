@@ -135,3 +135,45 @@ export default function HeroSection() {
     </section>
   )
 }
+
+// 'use client'
+
+// import Image from 'next/image'
+
+// export default function HeroSection() {
+//   return (
+//     <section className="relative min-h-screen flex items-center overflow-hidden">
+//       <div className="fixed inset-0 z-0">
+//         <Image
+//           src="https://www.digitalrealm-entertainment.com/wp-content/uploads/2023/09/image_7fa9d09c-effe-4ebb-8bb5-541316597e8820230212_005845.jpg"
+//           alt="Gaming Background"
+//           fill
+//           className="object-cover opacity-30"
+//           priority
+//         />
+//         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent" />
+//       </div>
+
+//       <div className="relative z-10 max-w-7xl mx-auto px-6 py-32">
+//         <div className="max-w-3xl space-y-8">
+//           <div className="inline-block">
+//             <span className="text-[#ff8c42] text-sm font-semibold tracking-wider border border-[#ff8c42]/30 px-4 py-2 rounded-full">
+//               RWANDA'S FIRST AFRICAN INDIE GAME STUDIO
+//             </span>
+//           </div>
+
+//           <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
+//             Let There Be{' '}
+//             <span className="text-[#ff8c42]">African</span>
+//             <br />
+//             Games.
+//           </h1>
+
+//           <p className="text-gray-400 text-lg max-w-2xl">
+//             Manage esports events, digital assets and creator tools — all in one dashboard built for Africa's gaming ecosystem.
+//           </p>
+//         </div>
+//       </div>
+//     </section>
+//   )
+// }
