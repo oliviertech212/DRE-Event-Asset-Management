@@ -1,12 +1,26 @@
 'use client'
 
 import { Menu, LogOut, User } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { logout } from '@/store/slices/authSlice'
+import { toast } from 'sonner'
 
 interface DashboardHeaderProps {
   onMenuClick: () => void
 }
 
 export default function DashboardHeader({ onMenuClick }: DashboardHeaderProps) {
+  const router = useRouter()
+  const dispatch = useAppDispatch()
+  const { user } = useAppSelector((state) => state.auth)
+
+  const handleLogout = () => {
+    dispatch(logout())
+    toast.success('Logged out successfully')
+    router.push('/login')
+  }
+
   return (
     <header className="bg-black border-b border-white/10 px-6 py-4">
       <div className="flex items-center justify-between">
@@ -25,11 +39,15 @@ export default function DashboardHeader({ onMenuClick }: DashboardHeaderProps) {
               <User className="w-5 h-5 text-black" />
             </div>
             <div className="hidden md:block">
-              <p className="text-white text-sm font-semibold">Admin User</p>
-              <p className="text-gray-400 text-xs">admin@digitalrealm.com</p>
+              <p className="text-white text-sm font-semibold">{user?.name || 'Admin User'}</p>
+              <p className="text-gray-400 text-xs">{user?.email || 'admin@digitalrealm.com'}</p>
             </div>
           </div>
-          <button className="text-gray-400 hover:text-white transition-colors">
+          <button
+            onClick={handleLogout}
+            className="text-gray-400 hover:text-white transition-colors"
+            title="Logout"
+          >
             <LogOut className="w-5 h-5" />
           </button>
         </div>

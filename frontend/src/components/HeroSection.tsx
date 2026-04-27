@@ -3,8 +3,21 @@
 import { Trophy, Package } from 'lucide-react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
+import { useAppSelector } from '@/store/hooks'
 
 export default function HeroSection() {
+  const router = useRouter()
+  const { isAuthenticated } = useAppSelector((state) => state.auth)
+
+  const handleManageEvents = () => {
+    if (isAuthenticated) {
+      router.push('/admin/events')
+    } else {
+      router.push('/login')
+    }
+  }
+
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
       <div className="fixed inset-0 z-0">
@@ -62,7 +75,10 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="flex gap-4"
           >
-            <button className="px-8 py-4 bg-[#ff8c42] text-black font-semibold rounded-lg hover:bg-[#ff7a2e] transition-all flex items-center gap-2">
+            <button
+              onClick={handleManageEvents}
+              className="px-8 py-4 bg-[#ff8c42] text-black font-semibold rounded-lg hover:bg-[#ff7a2e] transition-all flex items-center gap-2"
+            >
               MANAGE EVENTS →
             </button>
             <button className="px-8 py-4 bg-transparent border border-white/20 text-white rounded-lg hover:border-white hover:bg-white/5 transition-all">

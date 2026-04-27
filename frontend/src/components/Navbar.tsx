@@ -2,8 +2,21 @@
 
 import { Gamepad2, LogIn } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useAppSelector } from '@/store/hooks'
 
 export default function Navbar() {
+  const router = useRouter()
+  const { isAuthenticated } = useAppSelector((state) => state.auth)
+
+  const handleManageClick = () => {
+    if (isAuthenticated) {
+      router.push('/admin/dashboard')
+    } else {
+      router.push('/login')
+    }
+  }
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-white/10">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -21,9 +34,12 @@ export default function Navbar() {
           <Link href="/about" className="text-gray-400 hover:text-white transition-colors">
             About
           </Link>
-          <button className="flex items-center gap-2 px-5 py-2.5 bg-transparent border border-white/20 text-white rounded-lg hover:border-[#ff8c42] hover:text-[#ff8c42] transition-all">
+          <button
+            onClick={handleManageClick}
+            className="flex items-center gap-2 px-5 py-2.5 bg-transparent border border-white/20 text-white rounded-lg hover:border-[#ff8c42] hover:text-[#ff8c42] transition-all"
+          >
             <LogIn className="w-4 h-4" />
-            Login
+            {isAuthenticated ? 'Dashboard' : 'Login'}
           </button>
         </div>
       </div>
