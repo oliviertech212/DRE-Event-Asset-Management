@@ -174,6 +174,14 @@ export const createEvent = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'All required fields must be provided' });
     }
 
+    const existingEvent = await prisma.event.findFirst({
+      where: { title: { equals: title, mode: 'insensitive' } }
+    });
+
+    if (existingEvent) {
+      return res.status(400).json({ message: 'An event with this title already exists' });
+    }
+
     const event = await prisma.event.create({
       data: {
         title,
@@ -223,6 +231,19 @@ export const updateEvent = async (req: Request, res: Response) => {
       maxParticipants,
       status,
     } = req.body;
+
+    if (title) {
+      const existingEvent = await prisma.event.findFirst({
+        where: {
+          title: { equals: title, mode: 'insensitive' },
+          NOT: { id: req.params.id }
+        }
+      });
+
+      if (existingEvent) {
+        return res.status(400).json({ message: 'An event with this title already exists' });
+      }
+    }
 
     const updateData: any = {};
 

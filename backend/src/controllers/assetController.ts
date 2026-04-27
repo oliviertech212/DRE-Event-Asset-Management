@@ -148,6 +148,14 @@ export const createAsset = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'All required fields must be provided' });
     }
 
+    const existingAsset = await prisma.asset.findFirst({
+      where: { title: { equals: title, mode: 'insensitive' } }
+    });
+
+    if (existingAsset) {
+      return res.status(400).json({ message: 'An asset with this title already exists' });
+    }
+
     const asset = await prisma.asset.create({
       data: {
         title,
@@ -187,6 +195,19 @@ export const updateAsset = async (req: Request, res: Response) => {
       status,
       published,
     } = req.body;
+
+    if (title) {
+      const existingAsset = await prisma.asset.findFirst({
+        where: {
+          title: { equals: title, mode: 'insensitive' },
+          NOT: { id: req.params.id }
+        }
+      });
+
+      if (existingAsset) {
+        return res.status(400).json({ message: 'An asset with this title already exists' });
+      }
+    }
 
     const asset = await prisma.asset.update({
       where: { id: req.params.id },
