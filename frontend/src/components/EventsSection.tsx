@@ -2,6 +2,8 @@
 
 import { Search, Gamepad2, Calendar, MapPin, Users } from 'lucide-react'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
+import Image from 'next/image'
 
 const events = [
   {
@@ -14,7 +16,7 @@ const events = [
     location: 'Kigali',
     participants: 128,
     gradient: 'from-purple-900/40 to-purple-600/20',
-    icon: '🎮'
+    imageUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80'
   },
   {
     id: 'evt-2026-004',
@@ -26,7 +28,7 @@ const events = [
     location: 'Kigali',
     participants: 64,
     gradient: 'from-teal-900/40 to-teal-600/20',
-    icon: '🕹️'
+    imageUrl: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80'
   },
   {
     id: 'evt-2026-005',
@@ -38,7 +40,7 @@ const events = [
     location: 'Nairobi',
     participants: 200,
     gradient: 'from-green-900/40 to-green-700/20',
-    icon: '🥽'
+    imageUrl: 'https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?w=800&q=80'
   },
   {
     id: 'evt-2026-006',
@@ -50,7 +52,7 @@ const events = [
     location: 'Online',
     participants: 40,
     gradient: 'from-orange-900/40 to-orange-700/20',
-    icon: '🎨'
+    imageUrl: 'https://images.unsplash.com/photo-1593508512255-86ab42a8e620?w=800&q=80'
   }
 ]
 
@@ -58,7 +60,13 @@ export default function EventsSection() {
   return (
     <section className="relative z-10 bg-black py-20">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-12"
+        >
           <div className="relative mb-6">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
             <input
@@ -85,58 +93,79 @@ export default function EventsSection() {
               VR / XR
             </button>
           </div>
-        </div>
+        </motion.div>
 
-        <h2 className="text-2xl font-bold text-gray-400 mb-8 tracking-wider">UPCOMING & LIVE EVENTS</h2>
+        <motion.h2
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-2xl font-bold text-gray-400 mb-8 tracking-wider"
+        >
+          UPCOMING & LIVE EVENTS
+        </motion.h2>
 
         <div className="grid md:grid-cols-2 gap-6">
-          {events.map((event) => (
-            <Link
+          {events.map((event, index) => (
+            <motion.div
               key={event.id}
-              href={`/events/${event.id}`}
-              className="group bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a] border border-white/10 rounded-2xl overflow-hidden hover:border-[#ff8c42]/50 transition-all"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
             >
-              <div className={`h-48 bg-gradient-to-br ${event.gradient} flex items-center justify-center text-6xl`}>
-                {event.icon}
-              </div>
-
-              <div className="p-6 space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-[#ff8c42] text-xs font-semibold tracking-wider">
-                    {event.category}
-                  </span>
-                  <span className={`${event.statusColor} text-white text-xs px-3 py-1 rounded-full flex items-center gap-1.5`}>
-                    <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
-                    {event.status}
-                  </span>
+              <Link
+                href={`/events/${event.id}`}
+                className="group bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a] border border-white/10 rounded-2xl overflow-hidden hover:border-[#ff8c42]/50 transition-all block"
+              >
+                <div className="relative h-48 overflow-hidden">
+                  <Image
+                    src={event.imageUrl}
+                    alt={event.title}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className={`absolute inset-0 bg-gradient-to-br ${event.gradient}`} />
                 </div>
 
-                <h3 className="text-xl font-bold text-white group-hover:text-[#ff8c42] transition-colors">
-                  {event.title}
-                </h3>
-
-                <div className="flex items-center gap-4 text-sm text-gray-400">
-                  <div className="flex items-center gap-1.5">
-                    <Calendar className="w-4 h-4" />
-                    {event.date}
+                <div className="p-6 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[#ff8c42] text-xs font-semibold tracking-wider">
+                      {event.category}
+                    </span>
+                    <span className={`${event.statusColor} text-white text-xs px-3 py-1 rounded-full flex items-center gap-1.5`}>
+                      <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
+                      {event.status}
+                    </span>
                   </div>
-                  <div className="flex items-center gap-1.5">
-                    <MapPin className="w-4 h-4" />
-                    {event.location}
+
+                  <h3 className="text-xl font-bold text-white group-hover:text-[#ff8c42] transition-colors">
+                    {event.title}
+                  </h3>
+
+                  <div className="flex items-center gap-4 text-sm text-gray-400">
+                    <div className="flex items-center gap-1.5">
+                      <Calendar className="w-4 h-4" />
+                      {event.date}
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <MapPin className="w-4 h-4" />
+                      {event.location}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                    <div className="flex items-center gap-2 text-sm text-gray-400">
+                      <Users className="w-4 h-4" />
+                      <span>Participants: <span className="text-[#ff8c42] font-semibold">{event.participants}</span></span>
+                    </div>
+                    <span className="text-[#ff8c42] text-sm font-semibold group-hover:translate-x-1 transition-transform">
+                      View details →
+                    </span>
                   </div>
                 </div>
-
-                <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                  <div className="flex items-center gap-2 text-sm text-gray-400">
-                    <Users className="w-4 h-4" />
-                    <span>Participants: <span className="text-[#ff8c42] font-semibold">{event.participants}</span></span>
-                  </div>
-                  <span className="text-[#ff8c42] text-sm font-semibold group-hover:translate-x-1 transition-transform">
-                    View details →
-                  </span>
-                </div>
-              </div>
-            </Link>
+              </Link>
+            </motion.div>
           ))}
         </div>
       </div>

@@ -6,6 +6,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'www.digitalrealm-entertainment.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
     ],
   },
 }
