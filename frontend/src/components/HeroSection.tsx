@@ -16,7 +16,9 @@ export default function HeroSection() {
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent" />
+        
       </div>
+      
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-32 grid lg:grid-cols-2 gap-12 items-center">

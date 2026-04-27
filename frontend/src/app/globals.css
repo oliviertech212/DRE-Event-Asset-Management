@@ -11,6 +11,8 @@
   --color-accent-hover: #ff7a2e;
   --color-text-primary: #ffffff;
   --color-text-muted: #a0a0a0;
+    --font-display: 'Barlow Condensed', sans-serif;
+  --font-body:    'JetBrains Mono', monospace;
 }
 
 html {
@@ -23,3 +25,4 @@ body {
   font-family: system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
+
